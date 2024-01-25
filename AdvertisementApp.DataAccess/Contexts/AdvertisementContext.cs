@@ -19,7 +19,7 @@ namespace AdvertisementApp.DataAccess.Contexts
         public DbSet<AppRole> AppRoles { get; set; }
         public DbSet<AppUserRole> AppUserRoles { get; set; }
         public DbSet<Gender> Genders { get; set; }
-        public DbSet<MilitaryStatus> militaryStatuses { get; set; }
+        public DbSet<MilitaryStatus> MilitaryStatuses { get; set; }
         public DbSet<ProvidedService> ProvidedServices { get; set; }
 
     }
