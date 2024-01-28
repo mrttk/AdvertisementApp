@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AdvertisementApp.DataAccess.UnitOfWork
 {
-    public class Uow
+    public class Uow: IUow
     {
         public readonly AdvertisementContext _context;
 
