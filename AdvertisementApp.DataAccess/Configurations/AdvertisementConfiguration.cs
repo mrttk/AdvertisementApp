@@ -15,7 +15,7 @@ namespace AdvertisementApp.DataAccess.Configurations
         {
             builder.Property(x => x.Title).HasMaxLength(200).IsRequired();
             builder.Property(x => x.Description).HasColumnType("ntext").IsRequired();
-            builder.Property(x => x.CreatedDate).HasDefaultValue("getdate()");
+            builder.Property(x => x.CreatedDate).HasDefaultValueSql("getdate()");
         }
     }
 }
