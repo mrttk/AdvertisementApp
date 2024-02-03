@@ -47,9 +47,11 @@ namespace AdvertisementApp.Business.Services
             return new Response<CreateDto>(dto, result.ConvertToCustomValidationError());
         }
 
-        public Task<IResponse<List<ListDto>>> GetAllAsync()
+        public async Task<IResponse<List<ListDto>>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var data = await _uow.GetRepository<T>().GetAllAsync();
+            var dto = _mapper.Map<List<ListDto>>(data);
+            return new Response<List<ListDto>>(ResponseType.Success, dto);
         }
 
         public Task<IResponse<IDto>> GetByIdAsync<IDto>(int id)
