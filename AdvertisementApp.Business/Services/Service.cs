@@ -54,9 +54,13 @@ namespace AdvertisementApp.Business.Services
             return new Response<List<ListDto>>(ResponseType.Success, dto);
         }
 
-        public Task<IResponse<IDto>> GetByIdAsync<IDto>(int id)
+        public async Task<IResponse<IDto>> GetByIdAsync<IDto>(int id)
         {
-            throw new NotImplementedException();
+            var data = await _uow.GetRepository<T>().GetByFilterAsync(x => x.Id == id);
+            if (data == null)
+                return new Response<IDto>(ResponseType.NotFound, $"{id}'ye sahip data bulunamadı.");
+            var dto = _mapper.Map<IDto>(data);
+            return new Response<IDto>(ResponseType.Success, dto);
         }
 
         public Task<IResponse> RemoveAsync<IDto>(int id)
