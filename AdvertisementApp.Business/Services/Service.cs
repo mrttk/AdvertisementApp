@@ -9,6 +9,8 @@ using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,7 +18,7 @@ namespace AdvertisementApp.Business.Services
 {
     public class Service<CreateDto, UpdateDto, ListDto, T> : IService<CreateDto, UpdateDto, ListDto, T>
         where CreateDto : class, IDto, new()
-        where UpdateDto : class, IDto, new()
+        where UpdateDto : class, IUpdateDto, new()
         where ListDto : class, IDto, new()
         where T : BaseEntity
     {
@@ -58,19 +60,33 @@ namespace AdvertisementApp.Business.Services
         {
             var data = await _uow.GetRepository<T>().GetByFilterAsync(x => x.Id == id);
             if (data == null)
-                return new Response<IDto>(ResponseType.NotFound, $"{id}'ye sahip data bulunamadı.");
+                return new Response<IDto>(ResponseType.NotFound, $"{id} id'sine sahip data bulunamadı.");
             var dto = _mapper.Map<IDto>(data);
             return new Response<IDto>(ResponseType.Success, dto);
         }
 
-        public Task<IResponse> RemoveAsync<IDto>(int id)
+        public async Task<IResponse> RemoveAsync<IDto>(int id)
         {
-            throw new NotImplementedException();
+            var data = await _uow.GetRepository<T>().FindAsync(id);
+            if (data == null)
+                return new Response(ResponseType.NotFound, $"{id} id'sine sahip data bulunamadı.");
+            _uow.GetRepository<T>().Remove(data);
+            return new Response(ResponseType.Success);
         }
 
-        public Task<IResponse<UpdateDto>> UpdateAsync(UpdateDto dto)
+        public async Task<IResponse<UpdateDto>> UpdateAsync(UpdateDto dto)
         {
-            throw new NotImplementedException();
+            var result = _updateDtoValidator.Validate(dto);
+            if (result.IsValid)
+            {
+                var unchangedData = await _uow.GetRepository<T>().FindAsync(dto.Id);
+                if (unchangedData == null)
+                    return new Response<UpdateDto>(ResponseType.NotFound, $"{dto.Id} id'sine sahip data bulunamadı.");
+                var entity = _mapper.Map<T>(dto);
+                _uow.GetRepository<T>().Update(entity, unchangedData);
+                return new Response<UpdateDto>(ResponseType.Success, dto);
+            }
+            return new Response<UpdateDto>(dto, result.ConvertToCustomValidationError());
         }
     }
 }
