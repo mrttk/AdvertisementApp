@@ -1,4 +1,5 @@
-﻿using AdvertisementApp.DataAccess.Contexts;
+﻿using AdvertisementApp.Business.Mappings.AutoMapper;
+using AdvertisementApp.DataAccess.Contexts;
 using AdvertisementApp.DataAccess.UnitOfWork;
 using AdvertisementApp.Dtos.ProvidedServiceDtos;
 using AutoMapper;
@@ -22,7 +23,7 @@ namespace AdvertisementApp.Business.DependencyResolvers.Microsoft
 
             var mapperConfiguration = new MapperConfiguration(options =>
             {
-                //options.AddProfile();
+                options.AddProfile(new ProvidedServiceProfile());
             });
 
             var mapper = mapperConfiguration.CreateMapper();
