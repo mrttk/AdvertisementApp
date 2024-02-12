@@ -14,8 +14,8 @@ namespace AdvertisementApp.Business.Mappings.AutoMapper
         public ProvidedServiceProfile()
         {
             CreateMap<ProvidedServiceCreateDto, ProvidedService>().ReverseMap();
-            CreateMap<ProvidedServiceListDto, ProvidedService>().ReverseMap();
             CreateMap<ProvidedServiceUpdateDto, ProvidedService>().ReverseMap();
+            CreateMap<ProvidedServiceListDto, ProvidedService>().ReverseMap();
         }
     }
 }
