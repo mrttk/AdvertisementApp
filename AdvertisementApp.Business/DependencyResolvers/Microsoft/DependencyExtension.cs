@@ -1,4 +1,6 @@
-﻿using AdvertisementApp.Business.Mappings.AutoMapper;
+﻿using AdvertisementApp.Business.Inferfaces;
+using AdvertisementApp.Business.Mappings.AutoMapper;
+using AdvertisementApp.Business.Services;
 using AdvertisementApp.DataAccess.Contexts;
 using AdvertisementApp.DataAccess.UnitOfWork;
 using AdvertisementApp.Dtos.ProvidedServiceDtos;
@@ -19,7 +21,10 @@ namespace AdvertisementApp.Business.DependencyResolvers.Microsoft
     {
         public static void AddDependencies(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<AdvertisementContext>(options => options.UseSqlServer(configuration.GetConnectionString("Local")));
+            services.AddDbContext<AdvertisementContext>(options =>
+            {
+                options.UseSqlServer(configuration.GetConnectionString("Local"));
+            });
 
             var mapperConfiguration = new MapperConfiguration(options =>
             {
@@ -32,6 +37,9 @@ namespace AdvertisementApp.Business.DependencyResolvers.Microsoft
 
             services.AddTransient<IValidator<ProvidedServiceCreateDto>>();
             services.AddTransient<IValidator<ProvidedServiceUpdateDto>>();
+            services.AddTransient<IValidator<ProvidedServiceListDto>>();
+
+            services.AddScoped<IProvidedServiceService, ProvidedServiceService>();
         }
     }
 }

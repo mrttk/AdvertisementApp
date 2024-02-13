@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 var configurations = builder.Configuration;
 builder.Services.AddDependencies(configurations);
+builder.Services.AddControllersWithViews();
 
 builder.Services.AddAuthentication(
         CertificateAuthenticationDefaults.AuthenticationScheme)
@@ -15,7 +16,7 @@ builder.Services.AddAuthentication(
 
 var app = builder.Build();
 app.UseAuthentication();
-app.MapGet("/", () => "Hello World!");
+app.MapDefaultControllerRoute();
 
 
 app.Run();
