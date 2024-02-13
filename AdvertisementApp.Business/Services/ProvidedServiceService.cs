@@ -14,7 +14,7 @@ namespace AdvertisementApp.Business.Services
 {
     public class ProvidedServiceService : Service<ProvidedServiceCreateDto, ProvidedServiceUpdateDto, ProvidedServiceListDto, ProvidedService>, IProvidedServiceService
     {
-        public ProvidedServiceService(IMapper mapper, IValidator<ProvidedServiceCreateDto> createDtoValidator, IValidator<ProvidedServiceUpdateDto> updateDtoValidator, IValidator<ProvidedServiceListDto> listDtoValidator, IUow uow) : base(createDtoValidator, updateDtoValidator, listDtoValidator, mapper, uow)
+        public ProvidedServiceService(IValidator<ProvidedServiceCreateDto> createDtoValidator, IValidator<ProvidedServiceUpdateDto> updateDtoValidator, IValidator<ProvidedServiceListDto> listDtoValidator, IMapper mapper, IUow uow) : base(createDtoValidator, updateDtoValidator, listDtoValidator, mapper, uow)
         {
 
         }
