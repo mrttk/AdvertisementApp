@@ -21,7 +21,10 @@ namespace AdvertisementApp.Business.DependencyResolvers.Microsoft
     {
         public static void AddDependencies(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<AdvertisementContext>(options => options.UseSqlServer(configuration.GetConnectionString("Local")));
+            services.AddDbContext<AdvertisementContext>(options =>
+            {
+                options.UseSqlServer(configuration.GetConnectionString("Local"));
+            });
 
             var mapperConfiguration = new MapperConfiguration(options =>
             {
